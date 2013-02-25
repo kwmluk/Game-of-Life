@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     
         <DataTemplate x:Key="DataTemplate_Level2">
-            <Button Content="{Binding}" 
+        <TextBlock Text="{Binding}" 
+                    FontSize="15"
                     Height="15" 
                     Width="15" 
                     Margin="1,1,1,1"

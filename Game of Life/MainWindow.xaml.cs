@@ -15,7 +15,7 @@ namespace Game_of_Life
         public MainWindow()
         {
             InitializeComponent();
-            //this.DataContext = ViewModel
+            
             Closing += (s, e) => ViewModelLocator.Cleanup();
         }
     }

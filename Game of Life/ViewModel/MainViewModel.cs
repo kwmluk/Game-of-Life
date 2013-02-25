@@ -1,4 +1,6 @@
-﻿using GalaSoft.MvvmLight;
+﻿//Written by Michael Luk - February 24, 2013
+
+using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
 using System.Windows.Input;
@@ -23,41 +25,13 @@ namespace Game_of_Life.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
-        #region Property changed
-        /*public event PropertyChangedEventHandler PropertyChanged;
-        
-        protected void NotifyPropertyChanged(string propertyName)
-        {
-            if (this.PropertyChanged != null)
-            {
-                // property changed
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }*/
-        #endregion
-        
-        Game_of_Life.Model.GameModel gameModel;
+        static Game_of_Life.Model.GameModel gameModel;
         //private List<List<int>> cellGridList;
-        private string welcome;
         private int x_toggle, y_toggle;
         private bool runState;
         private bool stopState;
 
-        public string Welcome
-        {
-            get
-            {
-                return welcome;
-            }
-            set
-            {
-                if (welcome != value)
-                {
-                    welcome = value;
-                    RaisePropertyChanged("Welcome");
-                }
-            }
-        }
+        private int boardUpdateDelay_ms = 300;
 
         public int X_Toggle
         {
@@ -127,6 +101,16 @@ namespace Game_of_Life.ViewModel
             }
         }
 
+        public static int getBoardWidth()
+        {
+            return gameModel.getCellGrid().GridWidth;
+        }
+
+        public static int getBoardHeight()
+        {
+            return gameModel.getCellGrid().GridHeight;
+        }
+
         private List<List<string>> getCellGridList()
         {
             List<List<string>> cellGrid = new List<List<string>>();
@@ -139,7 +123,8 @@ namespace Game_of_Life.ViewModel
                     if (gameModel.getCellGrid().isCellAlive(i, j))
                         cellGrid[i].Add("•");
                     else
-                        cellGrid[i].Add("◦");
+                        //cellGrid[i].Add("◦");
+                        cellGrid[i].Add(" ");
                 }
             }
             
@@ -156,7 +141,7 @@ namespace Game_of_Life.ViewModel
         /// </summary>
         public MainViewModel()
         {
-            gameModel = new Model.GameModel();
+            
             if (IsInDesignMode)
             {
                 // Code runs in Blend --> create design time data.
@@ -164,7 +149,7 @@ namespace Game_of_Life.ViewModel
             else
             {
                 // Code runs "for real"
-                Welcome = "HELLO";
+                gameModel = new Model.GameModel();
                 X_Toggle = 0; Y_Toggle = 0;
                 RunState = false;
                 //NextStepCommand=new RelayCommand(new Action<object>(ShowMessage));
@@ -182,13 +167,10 @@ namespace Game_of_Life.ViewModel
         public RelayCommand<object> NextStepCommand { get; private set; }
         private void _nextStepCommand(object parm)
         {
-            Welcome = "HEHE";
-            //gameModel.updateGrid();
-            //RaisePropertyChanged("CellGridList");
             ThreadPool.QueueUserWorkItem(new WaitCallback(continuousRun));
-            
         }
 
+        
         private void continuousRun(object stateinfo)
         {
             RunState = true;
@@ -196,19 +178,14 @@ namespace Game_of_Life.ViewModel
             {
                 gameModel.updateGrid();
                 RaisePropertyChanged("CellGridList");
-                Thread.Sleep(500);
+                Thread.Sleep(boardUpdateDelay_ms);
             }
         }
 
         public RelayCommand<object> StopCommand { get; private set; }
         private void _stopCommand(object parm)
         {
-            Welcome = "HEHE";
-            //gameModel.updateGrid();
-            //RaisePropertyChanged("CellGridList");
-            //ThreadPool.QueueUserWorkItem(new WaitCallback(stopRun));
             stopRun(null);
-
         }
 
         private void stopRun(object stateinfo)
@@ -226,6 +203,7 @@ namespace Game_of_Life.ViewModel
         private void toggleCellState(int row, int col)
         {
             gameModel.toggleCellLife(row, col);
+
             RaisePropertyChanged("CellGridList");
         }
         ////public override void Cleanup()

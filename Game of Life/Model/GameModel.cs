@@ -1,4 +1,6 @@
-﻿using System;
+﻿//Written by Michael Luk - February 24, 2013
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,9 +37,26 @@ namespace Game_of_Life.Model
             cellGrid = new CellGrid(15, 15);
             generation = 0;
 
-            cellGrid.setCellsState(4, 4, States.alive); 
-            cellGrid.setCellsState(4, 6, States.alive);
-            cellGrid.setCellsState(4, 5, States.alive);
+            initialGameState();
+        }
+
+        private void initialGameState()
+        {
+            //"Toad" oscillator
+            cellGrid.setCellsState(3, 9, States.alive);
+            cellGrid.setCellsState(3, 10, States.alive);
+            cellGrid.setCellsState(3, 11, States.alive);
+            cellGrid.setCellsState(4, 10, States.alive);
+            cellGrid.setCellsState(4, 11, States.alive);
+            cellGrid.setCellsState(4, 12, States.alive);
+
+            //Glider
+            cellGrid.setCellsState(2, 1, States.alive);
+            cellGrid.setCellsState(2, 2, States.alive);
+            cellGrid.setCellsState(2, 3, States.alive);
+            cellGrid.setCellsState(1, 3, States.alive);
+            cellGrid.setCellsState(0, 2, States.alive);
+            
         }
 
         public void setCellAlive(int row, int col)
