@@ -30,13 +30,13 @@
                  HorizontalAlignment="Left"
                  Text="{Binding Path=X_Toggle}"
                  Margin="303,175,0,0" 
-                 Name="toggle_x" VerticalAlignment="Top" Width="43" />
+                 Name="toggle_row" VerticalAlignment="Top" Width="43" PreviewTextInput="toggle_row_PreviewTextInput" />
         
         <TextBox Height="24" 
                  Text="{Binding Path=Y_Toggle}"
                  HorizontalAlignment="Left" 
                  Margin="303,145,0,0" 
-                 Name="toggle_y" VerticalAlignment="Top" Width="43" />
+                 Name="toggle_col" VerticalAlignment="Top" Width="43" PreviewTextInput="toggle_col_PreviewTextInput" />
         
         <Button Content="Toggle" 
                 Height="23" 
